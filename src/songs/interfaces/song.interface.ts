@@ -1,4 +1,4 @@
-export class CreateSongDto {
+export interface SongInterface {
     name: string;
     url: string;
 }

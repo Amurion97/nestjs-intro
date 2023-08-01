@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {Controller, Get, Post, Body, Patch, Param, Delete, Req, HttpCode, Query} from '@nestjs/common';
 import { SongsService } from './songs.service';
 import { CreateSongDto } from './dto/create-song.dto';
 import { UpdateSongDto } from './dto/update-song.dto';
+import {Request} from "express";
 
 @Controller('songs')
 export class SongsController {
@@ -9,16 +10,20 @@ export class SongsController {
 
   @Post()
   create(@Body() createSongDto: CreateSongDto) {
+    console.log(createSongDto)
     return this.songsService.create(createSongDto);
   }
 
   @Get()
-  findAll() {
+  findAll(@Query() query: any) {
+    console.log(query)
     return this.songsService.findAll();
   }
 
   @Get(':id')
+  @HttpCode(201)
   findOne(@Param('id') id: string) {
+    // throw "incorrect id"
     return this.songsService.findOne(+id);
   }
 

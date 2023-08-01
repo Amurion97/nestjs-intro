@@ -1,15 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { CreateSongDto } from './dto/create-song.dto';
 import { UpdateSongDto } from './dto/update-song.dto';
+import {SongInterface} from "./interfaces/song.interface";
 
 @Injectable()
 export class SongsService {
+  private readonly songs: SongInterface[] = []
   create(createSongDto: CreateSongDto) {
+    this.songs.push(createSongDto)
     return 'This action adds a new song';
   }
 
   findAll() {
-    return `This action returns all songs`;
+    return this.songs;
   }
 
   findOne(id: number) {
