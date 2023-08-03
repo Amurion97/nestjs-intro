@@ -16,6 +16,7 @@ import {SongsService} from './songs.service';
 import {CreateSongDto} from './dto/create-song.dto';
 import {UpdateSongDto} from './dto/update-song.dto';
 import {Request} from "express";
+import {Public} from "../auth/decorators/public.decorator";
 // import {ValidationPipe} from "../common/pipes/validation.pipe";
 
 @Controller('songs')
@@ -29,6 +30,7 @@ export class SongsController {
         return this.songsService.create(createSongDto);
     }
 
+    @Public()
     @Get()
     findAll(
         @Query('sortOrder', new DefaultValuePipe('ASC')) sortOrder: string,

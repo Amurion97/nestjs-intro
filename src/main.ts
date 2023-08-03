@@ -4,6 +4,7 @@ import {INestApplication, ValidationPipe} from "@nestjs/common";
 
 async function bootstrap() {
   const app:INestApplication = await NestFactory.create(AppModule);
+  app.enableCors();
   await app.listen(3000);
   console.log("NestJS started on port 3000")
 }

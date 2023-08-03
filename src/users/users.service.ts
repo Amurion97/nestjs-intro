@@ -1,3 +1,6 @@
+import * as bcrypt from 'bcrypt';
+import {bcryptConstants} from "../auth/constants";
+
 import {Inject, Injectable} from '@nestjs/common';
 import {CreateUserDto} from './dto/create-user.dto';
 import {UpdateUserDto} from './dto/update-user.dto';
@@ -5,18 +8,23 @@ import {Repository} from "typeorm";
 import {User} from "./entities/user.entity";
 import {GetUsersDto} from "./dto/get-users.dto";
 
+
 @Injectable()
 export class UsersService {
+    private hashRounds = bcryptConstants.rounds;
     constructor(
         @Inject('USER_REPOSITORY')
         private userRepository: Repository<User>,
     ) {
+
     }
 
     async create(createUserDto: CreateUserDto) {
         if (await this.checkUsedEmail(createUserDto.email)) {
             return "Email used"
         }
+        let hashedPassword = await bcrypt.hash(createUserDto.password, this.hashRounds);
+        createUserDto.password = hashedPassword;
         await this.userRepository.save(createUserDto);
         return "User created successfully"
     }
