@@ -32,12 +32,18 @@ export class UsersService {
         return await this.userRepository.find();
     }
 
-    async findOne(id: number) {
+    async findOneById(id: number) {
         return await this.userRepository.findOne({
             where: {
                 userId: id
             }
         });
+    }
+
+    async findOneByUsername(username: string) {
+        return await this.userRepository.findOneBy({
+            username: username
+        })
     }
 
     async update(id: number, updateUserDto: UpdateUserDto) {

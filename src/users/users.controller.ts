@@ -13,7 +13,6 @@ import {
 import {UsersService} from './users.service';
 import {CreateUserDto} from './dto/create-user.dto';
 import {UpdateUserDto} from './dto/update-user.dto';
-import {GetUsersDto} from "./dto/get-users.dto";
 
 @Controller('users')
 export class UsersController {
@@ -35,14 +34,15 @@ export class UsersController {
 
     @Get()
     async findAll(
-        @Query() query: GetUsersDto
+        @Query('name') name: string
     ) {
-        return await this.usersService.findAll(query);
+        console.log("UsersController - findAll - name:", name)
+        return await this.usersService.findAll({name});
     }
 
     @Get(':id')
     findOne(@Param('id', ParseIntPipe) id: number) {
-        return this.usersService.findOne(id);
+        return this.usersService.findOneById(id);
     }
 
     @Patch(':id')
