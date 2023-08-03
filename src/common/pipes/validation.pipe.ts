@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import {plainToInstance} from 'class-transformer';
 import {validate} from 'class-validator';
-
+//This class is just a demo that won't be used anywhere else
 @Injectable()
 export class ValidationPipe implements PipeTransform<any> {
     async transform(value: any, {metatype}: ArgumentMetadata) {

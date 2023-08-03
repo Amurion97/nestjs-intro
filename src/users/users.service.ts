@@ -3,6 +3,7 @@ import {CreateUserDto} from './dto/create-user.dto';
 import {UpdateUserDto} from './dto/update-user.dto';
 import {Repository} from "typeorm";
 import {User} from "./entities/user.entity";
+import {GetUsersDto} from "./dto/get-users.dto";
 
 @Injectable()
 export class UsersService {
@@ -27,23 +28,23 @@ export class UsersService {
         return !!(user);
     }
 
-    async findAll() {
+    async findAll(query: GetUsersDto) {
         return await this.userRepository.find();
     }
 
     async findOne(id: number) {
         return await this.userRepository.findOne({
             where: {
-                id: id
+                userId: id
             }
         });
     }
 
     async update(id: number, updateUserDto: UpdateUserDto) {
-        return await this.userRepository.update({id: id}, updateUserDto);
+        return await this.userRepository.update({userId: id}, updateUserDto);
     }
 
     async remove(id: number) {
-        return await this.userRepository.delete({id: id});
+        return await this.userRepository.delete({userId: id});
     }
 }

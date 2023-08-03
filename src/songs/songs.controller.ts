@@ -1,9 +1,22 @@
-import {Controller, Get, Post, Body, Patch, Param, Delete, Req, HttpCode, Query, ParseIntPipe} from '@nestjs/common';
+import {
+    Controller,
+    Get,
+    Post,
+    Body,
+    Patch,
+    Param,
+    Delete,
+    Req,
+    HttpCode,
+    Query,
+    ParseIntPipe,
+    DefaultValuePipe, ValidationPipe
+} from '@nestjs/common';
 import {SongsService} from './songs.service';
 import {CreateSongDto} from './dto/create-song.dto';
 import {UpdateSongDto} from './dto/update-song.dto';
 import {Request} from "express";
-import {ValidationPipe} from "../common/pipes/validation.pipe";
+// import {ValidationPipe} from "../common/pipes/validation.pipe";
 
 @Controller('songs')
 export class SongsController {
@@ -17,13 +30,17 @@ export class SongsController {
     }
 
     @Get()
-    findAll(@Query() query: any) {
-        console.log(query)
+    findAll(
+        @Query('sortOrder', new DefaultValuePipe('ASC')) sortOrder: string,
+        @Query('sortKey', new DefaultValuePipe(0)) sortKey: number) {
+        console.log(sortOrder, sortKey)
         return this.songsService.findAll();
     }
 
     @Get(':id')
-    findOne(@Param('id', ParseIntPipe) id: number) {
+    findOne(
+        @Param('id', ParseIntPipe) id: number
+    ) {
         // throw "incorrect id"
         return this.songsService.findOne(id);
     }
