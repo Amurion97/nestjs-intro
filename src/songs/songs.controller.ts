@@ -19,8 +19,6 @@ import {Request} from "express";
 import {Public} from "../auth/decorators/public.decorator";
 import {User} from "../common/decorators/user.decorator";
 
-// import {ValidationPipe} from "../common/pipes/validation.pipe";
-
 @Controller('songs')
 export class SongsController {
     constructor(private readonly songsService: SongsService) {
