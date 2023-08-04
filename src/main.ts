@@ -2,6 +2,7 @@ import {NestFactory} from '@nestjs/core';
 import {AppModule} from './app.module';
 import {INestApplication} from "@nestjs/common";
 import {useContainer} from 'class-validator';
+import {LoggerMiddleware} from "./common/middleware/logger.middleware";
 
 async function bootstrap() {
     const app: INestApplication = await NestFactory.create(AppModule);

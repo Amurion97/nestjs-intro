@@ -17,6 +17,8 @@ import {CreateSongDto} from './dto/create-song.dto';
 import {UpdateSongDto} from './dto/update-song.dto';
 import {Request} from "express";
 import {Public} from "../auth/decorators/public.decorator";
+import {User} from "../common/decorators/user.decorator";
+
 // import {ValidationPipe} from "../common/pipes/validation.pipe";
 
 @Controller('songs')
@@ -25,8 +27,10 @@ export class SongsController {
     }
 
     @Post()
-    create(@Body(new ValidationPipe()) createSongDto: CreateSongDto) {
-        console.log("createSongDto:", createSongDto)
+    create(@Body(new ValidationPipe()) createSongDto: CreateSongDto,
+           @User('sub') userId: string) {
+        console.log("SongsController - create - createSongDto:", createSongDto);
+        console.log("SongsController - create - userId:", userId)
         return this.songsService.create(createSongDto);
     }
 

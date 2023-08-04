@@ -6,10 +6,12 @@ import {UpdateUserDto} from './dto/update-user.dto';
 import {Repository} from "typeorm";
 import {User} from "./entities/user.entity";
 import {GetUsersDto} from "./dto/get-users.dto";
+import {RoleEnum} from "../roles/constants";
 
 @Injectable()
 export class UsersService {
     private hashRounds = 10;
+
     constructor(
         @Inject('USER_REPOSITORY')
         private userRepository: Repository<User>,
@@ -17,11 +19,20 @@ export class UsersService {
 
     }
 
-    async create(createUserDto: CreateUserDto) {
+    async createUser(createUserDto: CreateUserDto) {
         let hashedPassword = await bcrypt.hash(createUserDto.password, this.hashRounds);
         createUserDto.password = hashedPassword;
+        createUserDto['role'] = RoleEnum.User;
         await this.userRepository.save(createUserDto);
         return "User created successfully"
+    }
+
+    async createAdmin(createUserDto: CreateUserDto) {
+        let hashedPassword = await bcrypt.hash(createUserDto.password, this.hashRounds);
+        createUserDto.password = hashedPassword;
+        createUserDto['role'] = RoleEnum.Admin;
+        await this.userRepository.save(createUserDto);
+        return "Admin created successfully"
     }
 
     async checkUsedEmail(email: string) {
@@ -51,8 +62,13 @@ export class UsersService {
     }
 
     async findOneByUsername(username: string) {
-        return await this.userRepository.findOneBy({
-            username: username
+        return await this.userRepository.findOne({
+            relations: {
+                role: true
+            },
+            where: {
+                username: username
+            },
         })
     }
 
