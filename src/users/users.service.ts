@@ -18,14 +18,6 @@ export class UsersService {
     }
 
     async create(createUserDto: CreateUserDto) {
-        if (await this.checkUsedEmail(createUserDto.email)) {
-            return "Email used"
-        }
-
-        if (await this.checkUsedUsername(createUserDto.username)) {
-            return "Username used"
-        }
-
         let hashedPassword = await bcrypt.hash(createUserDto.password, this.hashRounds);
         createUserDto.password = hashedPassword;
         await this.userRepository.save(createUserDto);

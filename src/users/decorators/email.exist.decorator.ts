@@ -8,18 +8,18 @@ import {UsersService} from "../users.service";
 })
 // @Injectable() // this is needed in order to the class be injected into the module
 // @Injectable is not needed since we don't inject it into anything
-export class IsUsernameAlreadyExist implements ValidatorConstraintInterface {
+export class IsEmailAlreadyExist implements ValidatorConstraintInterface {
     constructor(protected readonly usersService: UsersService) {
-        // console.log("IsUsernameAlreadyExist - usersService:", this.usersService);
+        // console.log("IsEmailAlreadyExist - usersService:", this.usersService);
     }
 
     async validate(text: string) {
-        let isUsed = await this.usersService.checkUsedUsername(text)
+        let isUsed = await this.usersService.checkUsedEmail(text)
         return !isUsed
     }
 
     defaultMessage(args: ValidationArguments) {
         // here you can provide default error message if validation failed
-        return 'Username ($value) is already used!';
+        return 'Email ($value) is already used!';
     }
 }
