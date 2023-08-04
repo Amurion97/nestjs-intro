@@ -7,7 +7,6 @@ import {
     Param,
     Delete,
     ValidationPipe,
-    UsePipes,
     ParseIntPipe, Query
 } from '@nestjs/common';
 import {UsersService} from './users.service';
@@ -58,6 +57,7 @@ export class UsersController {
     }
 
     @Get(':id')
+    @Roles(RoleEnum.Admin, RoleEnum.User)
     findOne(@Param('id', ParseIntPipe) id: number) {
         return this.usersService.findOneById(id);
     }
